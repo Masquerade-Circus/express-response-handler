@@ -4,7 +4,7 @@ JSend compatible response handler for Express.
 
 This module attach default and custom responses to the express request object. The result response is implemented with a response code, stack trace and [JSend specification](https://labs.omniti.com/labs/jsend) compatible properties.
 
-## Instalation
+## Install
 
 This is a [Node.js](https://nodejs.org/en/) module available through the [npm registry](https://www.npmjs.com/). Installation is done using the [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
