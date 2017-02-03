@@ -1,0 +1,39 @@
+{
+  "name": "express-response-handler",
+  "version": "1.0.0",
+  "description": "JSend compatible response handler for Express.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Masquerade-Circus/express-response-handler.git"
+  },
+  "keywords": [
+    "response",
+    "jsend",
+    "express",
+    "middleware",
+    "json",
+    "handler"
+  ],
+  "author": {
+    "name": "Masquerade Circus",
+    "email": "christian@masquerade-circus.net",
+    "url": "http://masquerade-circus.net"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Masquerade-Circus/express-response-handler/issues"
+  },
+  "homepage": "https://github.com/Masquerade-Circus/express-response-handler#readme",
+  "jscsConfig": {
+    "preset": "crockford"
+  },
+  "jshintConfig": {
+    "esversion": 6,
+    "-W083": true,
+    "expr": true
+  }
+}
