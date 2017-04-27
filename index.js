@@ -95,7 +95,10 @@ let createResponseType = function (name, status = 'success', code = 200, callbac
          * create a response error type with stack and errors property
          */
         if (/(error|fail)/gi.test(status)) {
-            this.stack = stack = (new Error()).stack;
+            this.stack = data.stack || (new Error()).stack;
+            if (data !== undefined && data.stack !== undefined) {
+                delete data.stack;
+            }
 
             /**
              * If the passed data contains an errors property
@@ -103,7 +106,7 @@ let createResponseType = function (name, status = 'success', code = 200, callbac
              * and delete the data.errors property
              */
             if (data !== undefined && data.errors !== undefined) {
-                this.errors = errors = data.errors;
+                this.errors = data.errors;
                 delete data.errors;
             }
         }
@@ -177,7 +180,6 @@ let responseFactory = function (res, name, type) {
                     if (!debug) {
                         delete response.stack;
                     }
-
 
                     res.send(response);
                 },
