@@ -119,7 +119,7 @@ let createResponseType = function (name, status = 'success', code = 200, callbac
         this.name = name;
 
         // Set the toJSON function to return a clean object of the response
-        this.toJSON = () => {
+        this.toJSON = function () {
             return {
                 message: message || '',
                 data: data || {},
@@ -128,7 +128,9 @@ let createResponseType = function (name, status = 'success', code = 200, callbac
                 code: code,
                 errors: errors || {},
                 // Return the stack only if isn't a production env.
-                stack: debug ? stack : 0
+                stack: debug ? stack : 0,
+                // Return the query only if isn't a production env.
+                query: debug ? this.query || 0 : 0
             };
         };
 
@@ -171,15 +173,17 @@ let responseFactory = function (res, name, type) {
         if (!res.headersSent) {
             let response = new responses[ type ][ name ](message, data, callback);
             res.status(response.code);
+            response.query = res.req.query;
 
             // We only need to declare the text and json format,
             // and add a default format for all other responses
             res.format({
                 text: () => res.send(response.toString()),
                 json: () => {
-                    // Delete the stack property if is a production env.
+                    // Delete the stack and query properties if is a production env.
                     if (!debug) {
                         delete response.stack;
+                        delete response.query;
                     }
 
                     res.send(response);
@@ -192,9 +196,10 @@ let responseFactory = function (res, name, type) {
                     if (response.data === undefined && response.message === undefined) {
                         data = JSON.stringify(response.toJSON());
 
-                        // Delete the stack property if is a production env.
+                        // Delete the stack and query properties if is a production env.
                         if (!debug) {
                             delete response.stack;
+                            delete response.query;
                         }
 
                     }
