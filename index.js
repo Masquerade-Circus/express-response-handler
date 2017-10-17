@@ -130,7 +130,8 @@ let createResponseType = function (name, status = 'success', code = 200, callbac
                 // Return the stack only if isn't a production env.
                 stack: debug ? stack : 0,
                 // Return the query only if isn't a production env.
-                query: debug ? this.query || 0 : 0
+                query: debug ? this.query || 0 : 0,
+                time: this.time || 0
             };
         };
 
@@ -186,8 +187,12 @@ let responseFactory = function (res, name, type) {
                         delete response.query;
                     }
 
-                    if (res.responseTime !== undefined) {
-                        response.time = res.responseTime;
+                    if (res.responseTimeStart !== undefined) {
+                        res.responseTimeEnd = process.hrtime();
+                        response.time = (
+                            ((res.responseTimeEnd[0] * 1000000) + res.responseTimeEnd[1]) -
+                            ((res.responseTimeStart[0] * 1000000) + res.responseTimeStart[1])
+                        )  / 1000000;
                     }
 
                     res.send(response);
@@ -206,8 +211,12 @@ let responseFactory = function (res, name, type) {
                             delete response.query;
                         }
 
-                        if (res.responseTime !== undefined) {
-                            response.time = res.responseTime;
+                        if (res.responseTimeStart !== undefined) {
+                            res.responseTimeEnd = process.hrtime();
+                            response.time = (
+                                ((res.responseTimeEnd[0] * 1000000) + res.responseTimeEnd[1]) -
+                                ((res.responseTimeStart[0] * 1000000) + res.responseTimeStart[1])
+                            )  / 1000000;
                         }
                     }
 
@@ -240,6 +249,10 @@ let responseHandlerFactory = function (customCodes = []) {
 
     // Return the middleware plugin for the use with express
     return function (req, res, next) {
+        if (res.responseTimeStart === undefined) {
+            res.responseTimeStart = process.hrtime();
+        }
+
         for (let i in responses) {
             let type = i;
 
