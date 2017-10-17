@@ -1,6 +1,6 @@
 {
   "name": "express-response-handler",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "JSend compatible response handler for Express.",
   "main": "index.js",
   "scripts": {
