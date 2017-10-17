@@ -10,6 +10,8 @@ This is a [Node.js](https://nodejs.org/en/) module available through the [npm re
 
 ```bash
 $ npm install express-response-handler
+# or
+$ yarn add express-response-handler
 ```
 
 ## Use
@@ -52,7 +54,8 @@ If Accept Header is set to 'application/json':
   "status": "error",
   "code": 401,
   "errors": [],
-  "stack": "Error\n ..."
+  "stack": "Error\n ...",
+  "time": 187.98342 // Response time
 }
 ```
 
