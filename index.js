@@ -146,7 +146,7 @@ let createResponseType = function (name, status = 'success', code = 200, callbac
      */
     if (/(error|fail)/gi.test(status)) {
         Response.prototype = new Error();
-        Response.prototype.letructor = Response;
+        Response.prototype.constructor = Response;
     }
 
     return Response;
@@ -186,6 +186,10 @@ let responseFactory = function (res, name, type) {
                         delete response.query;
                     }
 
+                    if (res.responseTime !== undefined) {
+                        response.time = res.responseTime;
+                    }
+
                     res.send(response);
                 },
                 'default': () => {
@@ -202,6 +206,9 @@ let responseFactory = function (res, name, type) {
                             delete response.query;
                         }
 
+                        if (res.responseTime !== undefined) {
+                            response.time = res.responseTime;
+                        }
                     }
 
                     res.send(data || response.data || response.message);
